@@ -10,7 +10,7 @@ http://jsperf.com/data-uri-to-buffer-performance/3
 
 Useful scenarios for this module:
 * Pipe each canvas from the browser to the server through web sockets at light speed
-* Compress a canvas into binary form
+* Compress a canvas into binary form for persistence
 * If https://www.npmjs.com/package/canvas is too heavy for you and you only need the `toBuffer` part and/or you care about speed
 
 Furthermore this module is an important part of https://github.com/binarykitchen/videomail-client whose implementation can be seen on https://www.videomail.io
@@ -40,13 +40,13 @@ The example means, it tries to encode the canvas first as `webp` at the given qu
 
 ### quality
 
-Default: 0.5
+Default: `0.5`
 
 Determines the quality when encoding the canvas into an image with the given type.
 
 ### image.types
 
-Default: ['webp', 'jpeg']
+Default: `['webp', 'jpeg']`
 
 You know, turning a canvas into binary form requires an image type. No worries this module is able to automatically detect the supported image type in your browser.
 
