@@ -1,7 +1,7 @@
 {
   "name": "canvas-to-buffer",
-  "version": "1.0.0",
-  "description": "Convert a Canvas graphic to a Buffer, as fast as possible, without a copy",
+  "version": "1.0.1",
+  "description": "Converts a Canvas graphic into a Buffer, as fast as possible and without a copy.",
   "main": "index.js",
   "author": {
     "name": "Michael Heuberger",
@@ -14,7 +14,6 @@
   },
   "readmeFilename": "README.md",
   "scripts": {
-    "postinstall": "npm prune",
     "test": "tape test/*.js"
   },
   "engines": {

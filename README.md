@@ -56,6 +56,11 @@ It can be a string or an array with max two image types.
 
 FYI `webp` images have better compression, but are supported on Google Chrome only. Hence this module automatically falls back to 'jpeg' for any other browsers. Beware that binary data for JPEGs is about 20% larger.
 
+## Tests
+
+Tests can be run on your machine but you'll have to install Cairo first, see:
+https://github.com/Automattic/node-canvas/wiki/_pages
+
 ## License
 
 MIT. Copyright (C) [Michael Heuberger](https://binarykitchen.com)
