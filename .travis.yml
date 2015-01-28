@@ -3,6 +3,6 @@ deploy:
   provider: npm
   email: michael.heuberger@binarykitchen.com
   api_key:
-    secure: UGZ63W4+ATPrcUAFTiHYrIKpmCL6KL74mq/8zztdNTxweD5Zdy4SWlE3ch0iN4zUrDzMzoWmp9tUQVST+X0cgftRT43v/sRm08sULvRerUs20C2bPltILWFc43EaAKNafUIgIWCnyHlYl74QvTF3vrxQ0nQz8WHopBDvT3ceEuU=
+    secure: QklltGgo1szC2Y3P9Izf2iJpAU4pQUys16umxtzTWgj65foN58KSxCvK644/eM1K4C5gcLu37B7GfzhBpa0CM97HUnvwbnKpTxgiYicBr1dT8dw0k7oLCABLt7EfqMQcP7nCpM7zNjmEKsakBPbkPB9smcjwah+II9MBXYFFthA=
   on:
     repo: binarykitchen/canvas-to-buffer
