@@ -1,0 +1,42 @@
+{
+  "name": "canvas-to-buffer",
+  "version": "1.0.0",
+  "description": "Convert a Canvas graphic to a Buffer, as fast as possible, without a copy",
+  "main": "index.js",
+  "author": {
+    "name": "Michael Heuberger",
+    "email": "michael.heuberger@binarykitchen.com",
+    "url": "http://binarykitchen.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:binarykitchen/canvas-to-buffer.git"
+  },
+  "readmeFilename": "README.md",
+  "scripts": {
+    "postinstall": "npm prune",
+    "test": "tape test/*.js"
+  },
+  "engines": {
+    "node": ">=0.10.30",
+    "npm": ">=1.4.20"
+  },
+  "keywords": [
+    "canvas",
+    "buffer",
+    "browser",
+    "atob",
+    "convert"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "atob": "^1.1.2",
+    "canvas": "^1.1.6",
+    "express": "^4.10.6",
+    "superagent": "^0.21.0",
+    "tape": "^3.4.0"
+  },
+  "dependencies": {
+    "typedarray-to-buffer": "^3.0.1"
+  }
+}
