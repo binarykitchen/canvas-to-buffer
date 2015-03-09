@@ -39,7 +39,7 @@ module.exports = function(canvas, options) {
     function isMatch(uri, imageType) {
         var match = uri && uri.match(imageType)
 
-        match && options.debug && options.logger.debug('Image type %s verified', imageType)
+        match && options.debug && options.debug('Image type %s verified', imageType)
 
         return match
     }

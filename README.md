@@ -70,7 +70,7 @@ Just `toBuffer()` and `getImageType()`. Pretty self-explanatory.
 
 But both need a callback when you use this package on the server side, see next chapter.
 
-## Compatibility.
+## Compatibility
 
 This package works on both sides, browser or server. For browser environments everything happens in sync, whereas on the server side it's in async and hence callbacks are needed in all public functions.
 
