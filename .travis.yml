@@ -1,10 +1,11 @@
 language: node_js
+node_js:
+  - "8.3.0"
+notifications:
+  email:
+    on_success: never
+    on_failure: always
 before_install:
 - sudo apt-get update -qq && sudo apt-get install libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++
-deploy:
-  provider: npm
-  email: michael.heuberger@binarykitchen.com
-  api_key:
-    secure: QklltGgo1szC2Y3P9Izf2iJpAU4pQUys16umxtzTWgj65foN58KSxCvK644/eM1K4C5gcLu37B7GfzhBpa0CM97HUnvwbnKpTxgiYicBr1dT8dw0k7oLCABLt7EfqMQcP7nCpM7zNjmEKsakBPbkPB9smcjwah+II9MBXYFFthA=
-  on:
-    repo: binarykitchen/canvas-to-buffer
+install:
+  - yarn
