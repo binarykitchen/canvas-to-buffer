@@ -58,7 +58,7 @@ Default: `['webp', 'jpeg']`
 
 You know, turning a canvas into binary form requires an image type. No worries this module is able to automatically detect the supported image type in your browser.
 
-But if you want to explicitely specify the image type for whatever reason, this is the option to use.
+But if you want to explicitly specify the image type for whatever reason, this is the option to use.
 
 It can be a string or an array with max two image types.
 

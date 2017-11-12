@@ -1,6 +1,6 @@
 var toBuffer = require('typedarray-to-buffer')
 var atob = require('atob')
-var isBrowser = typeof (document) !== 'undefined' && typeof (document.createElement) === 'function'
+var isBrowser = typeof document !== 'undefined' && typeof document.createElement === 'function'
 
 // cached, used only once for browser environments
 var verifiedImageType

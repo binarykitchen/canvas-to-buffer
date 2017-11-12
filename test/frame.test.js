@@ -164,7 +164,7 @@ test('frame:', function (t) {
       })
     })
 
-    tt.test('buffer from large canvas has correct contents', function (tt) {
+    tt.test('buffer from large canvas has correct PNG contents', function (tt) {
       tt.plan(3)
 
       var frame = new Frame(generateCanvas(1000, 1000), {
@@ -177,6 +177,23 @@ test('frame:', function (t) {
         tt.equal(err, null)
         tt.equal(buffer.length, 3975)
         tt.equal(buffer.toString().indexOf('PNG') > -1, true)
+      })
+    })
+
+    tt.test('buffer from large canvas has correct JPG contents', function (tt) {
+      tt.plan(2)
+
+      var frame = new Frame(generateCanvas(1000, 1000), {
+        image: {
+          types: ['jpeg']
+        }
+      })
+
+      frame.toBuffer(function (err, buffer) {
+        tt.equal(err, null)
+        tt.equal(buffer.length, 16503)
+        // todo add tests for valid beginning and end of buffer, see
+        // https://en.wikipedia.org/wiki/JPEG_File_Interchange_Format
       })
     })
   })
