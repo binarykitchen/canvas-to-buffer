@@ -1,8 +1,8 @@
-var test = require('tape')
-var Canvas = require('canvas')
-var atob = require('atob')
+const test = require('tape')
+const Canvas = require('canvas')
+const atob = require('atob')
 
-var Frame = require('./../')
+const Frame = require('./../')
 
 // Add missing function because atob only exists on the browser
 Frame.atob = atob
@@ -181,7 +181,7 @@ test('frame:', function (t) {
     })
 
     tt.test('buffer from large canvas has correct JPG contents', function (tt) {
-      tt.plan(2)
+      tt.plan(4)
 
       var frame = new Frame(generateCanvas(1000, 1000), {
         image: {
@@ -192,8 +192,12 @@ test('frame:', function (t) {
       frame.toBuffer(function (err, buffer) {
         tt.equal(err, null)
         tt.equal(buffer.length, 16503)
-        // todo add tests for valid beginning and end of buffer, see
+
         // https://en.wikipedia.org/wiki/JPEG_File_Interchange_Format
+
+        const lastTwoBytes = buffer.slice(-2)
+        tt.equal(0xFF, lastTwoBytes[0])
+        tt.equal(0xD9, lastTwoBytes[1])
       })
     })
   })
