@@ -26,10 +26,10 @@
   "license": "MIT",
   "dependencies": {
     "atob": "2.0.3",
-    "typedarray-to-buffer": "3.1.4"
+    "typedarray-to-buffer": "3.1.5"
   },
   "devDependencies": {
-    "canvas": "1.6.9",
+    "canvas": "1.6.10",
     "tape": "4.9.0"
   }
 }

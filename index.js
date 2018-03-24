@@ -1,12 +1,12 @@
-const toBuffer = require('typedarray-to-buffer')
-const atob = require('atob')
-const isBrowser = typeof document !== 'undefined' && typeof document.createElement === 'function'
+var toBuffer = require('typedarray-to-buffer')
+var atob = require('atob')
+var isBrowser = typeof document !== 'undefined' && typeof document.createElement === 'function'
 
 // cached, used only once for browser environments
 var verifiedImageType
 
 module.exports = function (canvas, options) {
-  const self = this
+  var self = this
 
   options = options || {}
   options.image = options.image ? options.image : {}
@@ -24,7 +24,7 @@ module.exports = function (canvas, options) {
     options.image.quality = 0.5 // default
   }
 
-  const quality = parseFloat(options.image.quality)
+  var quality = parseFloat(options.image.quality)
 
   function composeImageType (index) {
     var imageType
@@ -37,7 +37,7 @@ module.exports = function (canvas, options) {
   }
 
   function isMatch (uri, imageType) {
-    const match = uri && uri.match(imageType)
+    var match = uri && uri.match(imageType)
 
     match && options.debug && options.debug('Image type %s verified', imageType)
 
@@ -76,8 +76,8 @@ module.exports = function (canvas, options) {
     var match
 
     try {
-      const testCanvas = getTestCanvas()
-      const uri = testCanvas.toDataURL && testCanvas.toDataURL(imageType)
+      var testCanvas = getTestCanvas()
+      var uri = testCanvas.toDataURL && testCanvas.toDataURL(imageType)
 
       match = isMatch(uri, imageType)
     } catch (exc) {
@@ -131,7 +131,7 @@ module.exports = function (canvas, options) {
 
   // callbacks are needed for server side tests
   function verifyImageType (cb) {
-    const imageType = composeImageType(0)
+    var imageType = composeImageType(0)
 
     if (cb) {
       verifyImageTypeAsync(imageType, cb)
@@ -143,7 +143,7 @@ module.exports = function (canvas, options) {
   // this method is proven to be fast, see
   // http://jsperf.com/data-uri-to-buffer-performance/3
   function uriToBuffer (uri) {
-    const uriSplitted = uri.split(',')[1]
+    var uriSplitted = uri.split(',')[1]
     var bytes
 
     // Beware that the atob function might be a static one for server side tests
@@ -155,7 +155,7 @@ module.exports = function (canvas, options) {
       throw new Error('atob function is missing')
     }
 
-    const arr = new Uint8Array(bytes.length)
+    var arr = new Uint8Array(bytes.length)
 
     // http://mrale.ph/blog/2014/12/24/array-length-caching.html
     for (var i = 0, l = bytes.length; i < l; i++) {
@@ -166,7 +166,7 @@ module.exports = function (canvas, options) {
   }
 
   function toBufferSync () {
-    const imageType = self.getImageType()
+    var imageType = self.getImageType()
     var buffer
 
     if (imageType) {
