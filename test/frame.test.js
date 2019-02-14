@@ -1,18 +1,11 @@
 const test = require('tape')
-const Canvas = require('canvas')
+const { createCanvas } = require('canvas')
 const atob = require('atob')
 
 const Frame = require('./../')
 
 // Add missing function because atob only exists on the browser
 Frame.atob = atob
-
-function generateCanvas (width, height) {
-  width = width || 1
-  height = height || 1
-
-  return new Canvas(width, height)
-}
 
 test('frame:', function (t) {
   t.test('arguments', function (tt) {
@@ -27,7 +20,7 @@ test('frame:', function (t) {
     tt.test('invalid image type', function (tt) {
       tt.plan(2)
 
-      new Frame(generateCanvas(), {
+      new Frame(createCanvas(1, 1), {
         image: {
           types: ['bad image type']
         }
@@ -42,7 +35,7 @@ test('frame:', function (t) {
       tt.plan(1)
 
       tt.throws(function () {
-        return new Frame(generateCanvas(), {
+        return new Frame(createCanvas(1, 1), {
           image: {
             types: ['too', 'many', 'image', 'types']
           }
@@ -53,19 +46,19 @@ test('frame:', function (t) {
     tt.test('missing image type sets default one', function (tt) {
       tt.plan(8)
 
-      new Frame(generateCanvas()).getImageType(function (err, imageType) {
+      new Frame(createCanvas(1, 1)).getImageType(function (err, imageType) {
         tt.equal(err, null)
         tt.equal(imageType, 'image/png')
       })
 
-      new Frame(generateCanvas(), {
+      new Frame(createCanvas(1, 1), {
         image: {}
       }).getImageType(function (err, imageType) {
         tt.equal(err, null)
         tt.equal(imageType, 'image/png')
       })
 
-      new Frame(generateCanvas(), {
+      new Frame(createCanvas(1, 1), {
         image: {
           types: null
         }
@@ -74,7 +67,7 @@ test('frame:', function (t) {
         tt.equal(imageType, 'image/png')
       })
 
-      new Frame(generateCanvas(), {
+      new Frame(createCanvas(1, 1), {
         image: {
           types: []
         }
@@ -90,7 +83,7 @@ test('frame:', function (t) {
       var frame
 
       tt.doesNotThrow(function () {
-        frame = new Frame(generateCanvas(), {
+        frame = new Frame(createCanvas(1, 1), {
           image: {
             types: ['png']
           }
@@ -106,7 +99,7 @@ test('frame:', function (t) {
     tt.test('first image type is invalid, second image type is valid', function (tt) {
       tt.plan(2)
 
-      var frame = new Frame(generateCanvas(), {
+      var frame = new Frame(createCanvas(1, 1), {
         image: {
           types: ['bad image type', 'png']
         }
@@ -123,7 +116,7 @@ test('frame:', function (t) {
     tt.test('fails without valid image type', function (tt) {
       tt.plan(1)
 
-      var frame = new Frame(generateCanvas(), {
+      var frame = new Frame(createCanvas(1, 1), {
         image: {
           types: ['bad image type']
         }
@@ -133,25 +126,10 @@ test('frame:', function (t) {
       tt.equal(buffer, undefined)
     })
 
-    tt.test('crashes when canvas is bad', function (tt) {
-      tt.plan(2)
-
-      var frame = new Frame(generateCanvas(-1, -1), {
-        image: {
-          types: ['png']
-        }
-      })
-
-      frame.toBuffer(function (err, buffer) {
-        tt.equal(err.toString(), 'Error: invalid value (typically too big) for the size of the input (surface, pattern, etc.)')
-        tt.equal(buffer, undefined)
-      })
-    })
-
     tt.test('buffer from small canvas has correct contents', function (tt) {
       tt.plan(3)
 
-      var frame = new Frame(generateCanvas(), {
+      var frame = new Frame(createCanvas(1, 1), {
         image: {
           types: ['png']
         }
@@ -167,7 +145,7 @@ test('frame:', function (t) {
     tt.test('buffer from large canvas has correct PNG contents', function (tt) {
       tt.plan(3)
 
-      var frame = new Frame(generateCanvas(1000, 1000), {
+      var frame = new Frame(createCanvas(1000, 1000), {
         image: {
           types: ['png']
         }
@@ -183,7 +161,7 @@ test('frame:', function (t) {
     tt.test('buffer from large canvas has correct JPG contents', function (tt) {
       tt.plan(4)
 
-      var frame = new Frame(generateCanvas(1000, 1000), {
+      var frame = new Frame(createCanvas(1000, 1000), {
         image: {
           types: ['jpeg']
         }
