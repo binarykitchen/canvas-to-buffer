@@ -1,8 +1,16 @@
 {
   "name": "canvas-to-buffer",
-  "version": "1.0.14",
+  "version": "1.1.0",
   "description": "Converts a Canvas graphic into a Buffer, as fast as possible and without a copy.",
-  "main": "index.js",
+  "source": "index.js",
+  "main": "dist/canvas-to-buffer.js",
+  "module": "dist/canvas-to-buffer.mjs",
+  "unpkg": "dist/canvas-to-buffer.umd.js",
+  "scripts": {
+    "lint": "standard index.js",
+    "build": "microbundle",
+    "test": "tape test/*.js"
+  },
   "author": {
     "name": "Michael Heuberger",
     "email": "michael.heuberger@binarykitchen.com",
@@ -13,9 +21,6 @@
     "url": "git@github.com:binarykitchen/canvas-to-buffer.git"
   },
   "readmeFilename": "README.md",
-  "scripts": {
-    "test": "tape test/*.js"
-  },
   "keywords": [
     "canvas",
     "buffer",
@@ -29,7 +34,9 @@
     "typedarray-to-buffer": "3.1.5"
   },
   "devDependencies": {
-    "canvas": "2.3.1",
-    "tape": "4.10.1"
+    "canvas": "2.6.0",
+    "microbundle": "0.11.0",
+    "standard": "13.1.0",
+    "tape": "4.11.0"
   }
 }
