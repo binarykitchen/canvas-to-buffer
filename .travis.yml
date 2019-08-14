@@ -1,6 +1,8 @@
 language: node_js
 node_js:
-  - "8.3.0"
+  - "8.10.0"
+  - "10.13.0"
+  - "11.10.1"
 notifications:
   email:
     on_success: never
