@@ -1,6 +1,7 @@
 const toBuffer = require('typedarray-to-buffer')
 const atob = require('atob')
-const isBrowser = typeof document !== 'undefined' && typeof document.createElement === 'function'
+const isBrowser =
+  typeof document !== 'undefined' && typeof document.createElement === 'function'
 
 // cached, used only once for browser environments
 var verifiedImageType
@@ -26,7 +27,7 @@ module.exports = function (canvas, options) {
 
   const quality = parseFloat(options.image.quality)
 
-  function composeImageType (index) {
+  function composeImageType(index) {
     var imageType
 
     if (options.image.types[index]) {
@@ -36,7 +37,7 @@ module.exports = function (canvas, options) {
     return imageType
   }
 
-  function isMatch (uri, imageType) {
+  function isMatch(uri, imageType) {
     const match = uri && uri.match(imageType)
 
     match && options.debug && options.debug('Image type %s verified', imageType)
@@ -45,7 +46,7 @@ module.exports = function (canvas, options) {
   }
 
   // Performance tweak, we do not need a big canvas for finding out the supported image type
-  function getTestCanvas () {
+  function getTestCanvas() {
     var testCanvas
 
     if (isBrowser) {
@@ -58,7 +59,7 @@ module.exports = function (canvas, options) {
     return testCanvas
   }
 
-  function canvasSupportsImageTypeAsync (imageType, cb) {
+  function canvasSupportsImageTypeAsync(imageType, cb) {
     try {
       getTestCanvas().toDataURL(imageType, function (err, uri) {
         if (err) {
@@ -72,7 +73,7 @@ module.exports = function (canvas, options) {
     }
   }
 
-  function canvasSupportsImageTypeSync (imageType) {
+  function canvasSupportsImageTypeSync(imageType) {
     var match
 
     try {
@@ -83,13 +84,16 @@ module.exports = function (canvas, options) {
     } catch (exc) {
       // Can happen when i.E. a spider is coming. Just be robust here and continue.
       options.debug &&
-      options.logger.debug('Failed to call toDataURL() on canvas for image type %s', imageType)
+        options.logger.debug(
+          'Failed to call toDataURL() on canvas for image type %s',
+          imageType
+        )
     }
 
     return match
   }
 
-  function verifyImageTypeAsync (imageType, cb) {
+  function verifyImageTypeAsync(imageType, cb) {
     canvasSupportsImageTypeAsync(imageType, function (err, match) {
       if (err) {
         cb(err)
@@ -111,7 +115,7 @@ module.exports = function (canvas, options) {
     })
   }
 
-  function verifyImageTypeSync (imageType) {
+  function verifyImageTypeSync(imageType) {
     if (!canvasSupportsImageTypeSync(imageType)) {
       if (options.image.types[1]) {
         imageType = composeImageType(1)
@@ -130,7 +134,7 @@ module.exports = function (canvas, options) {
   }
 
   // callbacks are needed for server side tests
-  function verifyImageType (cb) {
+  function verifyImageType(cb) {
     const imageType = composeImageType(0)
 
     if (cb) {
@@ -142,14 +146,14 @@ module.exports = function (canvas, options) {
 
   // this method is proven to be fast, see
   // http://jsperf.com/data-uri-to-buffer-performance/3
-  function uriToBuffer (uri) {
+  function uriToBuffer(uri) {
     const uriSplitted = uri.split(',')[1]
     var bytes
 
     // Beware that the atob function might be a static one for server side tests
-    if (typeof (atob) === 'function') {
+    if (typeof atob === 'function') {
       bytes = atob(uriSplitted)
-    } else if (typeof (self.constructor.atob) === 'function') {
+    } else if (typeof self.constructor.atob === 'function') {
       bytes = self.constructor.atob(uriSplitted)
     } else {
       throw new Error('atob function is missing')
@@ -165,7 +169,7 @@ module.exports = function (canvas, options) {
     return toBuffer(arr)
   }
 
-  function toBufferSync () {
+  function toBufferSync() {
     const imageType = self.getImageType()
     var buffer
 
@@ -177,7 +181,7 @@ module.exports = function (canvas, options) {
     return buffer
   }
 
-  function toBufferAsync (cb) {
+  function toBufferAsync(cb) {
     self.getImageType(function (err, imageType) {
       if (err) {
         cb(err)

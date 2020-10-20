@@ -1,18 +1,18 @@
-canvas-to-buffer
-================
+# canvas-to-buffer
 
 [![Build Status](https://travis-ci.org/binarykitchen/canvas-to-buffer.svg?branch=master)](https://travis-ci.org/binarykitchen/canvas-to-buffer)
 
 A tiny converter to turn any graphic canvas into a buffer. With focus on speed: it doesn't create an expensive copy and makes clever use of `atob()` and `Uint8Array`.
 
-Following performance tests prove that this module is using the fatest known method:
+Following performance tests prove that this module is using the fastest known method:
 [Data URI to Buffer performance tests](http://jsperf.com/data-uri-to-buffer-performance/3)
 
 Useful scenarios for this module:
-* Pipe each canvas from the browser to the server through web sockets at light speed
-* Compress a canvas into binary form for persistence
-* If the [Canvas package](https://www.npmjs.com/package/canvas) is too heavy for you and you only need the `toBuffer` part and/or you care about speed
-* Have one package that works on both sides, browser and server. In other words: you can browserify it.
+
+- Pipe each canvas from the browser to the server through web sockets at light speed
+- Compress a canvas into binary form for persistence
+- If the [Canvas package](https://www.npmjs.com/package/canvas) is too heavy for you and you only need the `toBuffer` part and/or you care about speed
+- Have one package that works on both sides, browser and server. In other words: you can browserify it.
 
 Furthermore this module is an important part of the [Videomail Client](https://github.com/binarykitchen/videomail-client) whose implementation can be seen on [Videomail](https://www.videomail.io)
 
@@ -20,28 +20,28 @@ Furthermore this module is an important part of the [Videomail Client](https://g
 
 ```js
 // I call it a Frame but you can go with i.E. CanvasConverter, whatever
-var Frame  = require('canvas-to-buffer')
+var Frame = require("canvas-to-buffer");
 
 // Drop in any canvas, i.E. from a webcam
-var frame  = new Frame(canvas)
+var frame = new Frame(canvas);
 
 // Automatically detects image type and does the conversion
-var buffer = frame.toBuffer()
+var buffer = frame.toBuffer();
 
 // Returns the chosen image type, could be `'image/png'`
-var imageType = frame.getImageType()
+var imageType = frame.getImageType();
 ```
 
 ## Options (example)
 
 ```js
-var Frame  = require('canvas-to-buffer')
-var frame  = new Frame(canvas, {
-    quality: 0.4,
-    image: {
-        types: ['webp', 'png']
-    }
-})
+var Frame = require("canvas-to-buffer");
+var frame = new Frame(canvas, {
+  quality: 0.4,
+  image: {
+    types: ["webp", "png"],
+  },
+});
 ```
 
 The example means, it tries to encode the canvas first as `webp` at the given quality before converting that data into a buffer. If that fails, i.E. the browser does not support it, then it will try again with the `png` format.
