@@ -4,12 +4,11 @@ const isBrowser =
   typeof document !== 'undefined' && typeof document.createElement === 'function'
 
 // cached, used only once for browser environments
-var verifiedImageType
+let verifiedImageType
 
-module.exports = function (canvas, options) {
+module.exports = function (canvas, options = {}) {
   const self = this
 
-  options = options || {}
   options.image = options.image ? options.image : {}
   options.image.types = options.image.types ? options.image.types : []
 
@@ -27,8 +26,8 @@ module.exports = function (canvas, options) {
 
   const quality = parseFloat(options.image.quality)
 
-  function composeImageType(index) {
-    var imageType
+  function composeImageType (index) {
+    let imageType
 
     if (options.image.types[index]) {
       imageType = 'image/' + options.image.types[index]
@@ -37,7 +36,7 @@ module.exports = function (canvas, options) {
     return imageType
   }
 
-  function isMatch(uri, imageType) {
+  function isMatch (uri, imageType) {
     const match = uri && uri.match(imageType)
 
     match && options.debug && options.debug('Image type %s verified', imageType)
@@ -46,8 +45,8 @@ module.exports = function (canvas, options) {
   }
 
   // Performance tweak, we do not need a big canvas for finding out the supported image type
-  function getTestCanvas() {
-    var testCanvas
+  function getTestCanvas () {
+    let testCanvas
 
     if (isBrowser) {
       testCanvas = document.createElement('canvas')
@@ -59,9 +58,10 @@ module.exports = function (canvas, options) {
     return testCanvas
   }
 
-  function canvasSupportsImageTypeAsync(imageType, cb) {
+  function canvasSupportsImageTypeAsync (imageType, cb) {
     try {
-      getTestCanvas().toDataURL(imageType, function (err, uri) {
+      const testCanvas = getTestCanvas()
+      testCanvas.toDataURL(imageType, function (err, uri) {
         if (err) {
           cb(err)
         } else {
@@ -73,8 +73,8 @@ module.exports = function (canvas, options) {
     }
   }
 
-  function canvasSupportsImageTypeSync(imageType) {
-    var match
+  function canvasSupportsImageTypeSync (imageType) {
+    let match
 
     try {
       const testCanvas = getTestCanvas()
@@ -93,7 +93,7 @@ module.exports = function (canvas, options) {
     return match
   }
 
-  function verifyImageTypeAsync(imageType, cb) {
+  function verifyImageTypeAsync (imageType, cb) {
     canvasSupportsImageTypeAsync(imageType, function (err, match) {
       if (err) {
         cb(err)
@@ -115,7 +115,7 @@ module.exports = function (canvas, options) {
     })
   }
 
-  function verifyImageTypeSync(imageType) {
+  function verifyImageTypeSync (imageType) {
     if (!canvasSupportsImageTypeSync(imageType)) {
       if (options.image.types[1]) {
         imageType = composeImageType(1)
@@ -134,7 +134,7 @@ module.exports = function (canvas, options) {
   }
 
   // callbacks are needed for server side tests
-  function verifyImageType(cb) {
+  function verifyImageType (cb) {
     const imageType = composeImageType(0)
 
     if (cb) {
@@ -146,9 +146,9 @@ module.exports = function (canvas, options) {
 
   // this method is proven to be fast, see
   // http://jsperf.com/data-uri-to-buffer-performance/3
-  function uriToBuffer(uri) {
+  function uriToBuffer (uri) {
     const uriSplitted = uri.split(',')[1]
-    var bytes
+    let bytes
 
     // Beware that the atob function might be a static one for server side tests
     if (typeof atob === 'function') {
@@ -162,16 +162,16 @@ module.exports = function (canvas, options) {
     const arr = new Uint8Array(bytes.length)
 
     // http://mrale.ph/blog/2014/12/24/array-length-caching.html
-    for (var i = 0, l = bytes.length; i < l; i++) {
+    for (let i = 0, l = bytes.length; i < l; i++) {
       arr[i] = bytes.charCodeAt(i)
     }
 
     return toBuffer(arr)
   }
 
-  function toBufferSync() {
+  function toBufferSync () {
     const imageType = self.getImageType()
-    var buffer
+    let buffer
 
     if (imageType) {
       const uri = canvas.toDataURL(imageType, quality)
@@ -181,7 +181,7 @@ module.exports = function (canvas, options) {
     return buffer
   }
 
-  function toBufferAsync(cb) {
+  function toBufferAsync (cb) {
     self.getImageType(function (err, imageType) {
       if (err) {
         cb(err)

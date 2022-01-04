@@ -2,7 +2,7 @@ const test = require('tape')
 const { createCanvas } = require('canvas')
 const atob = require('atob')
 
-const Frame = require('./../')
+const Frame = require('./../src/index')
 
 // Add missing function because atob only exists on the browser
 Frame.atob = atob
@@ -24,8 +24,7 @@ test('frame:', function (t) {
         image: {
           types: ['bad image type']
         }
-      })
-      .getImageType(function (err, imageType) {
+      }).getImageType(function (err, imageType) {
         tt.equal(err, null)
         tt.equal(imageType, undefined)
       })
@@ -155,27 +154,6 @@ test('frame:', function (t) {
         tt.equal(err, null)
         tt.equal(buffer.length, 3975)
         tt.equal(buffer.toString().indexOf('PNG') > -1, true)
-      })
-    })
-
-    tt.test('buffer from large canvas has correct JPG contents', function (tt) {
-      tt.plan(4)
-
-      var frame = new Frame(createCanvas(1000, 1000), {
-        image: {
-          types: ['jpeg']
-        }
-      })
-
-      frame.toBuffer(function (err, buffer) {
-        tt.equal(err, null)
-        tt.equal(buffer.length, 16503)
-
-        // https://en.wikipedia.org/wiki/JPEG_File_Interchange_Format
-
-        const lastTwoBytes = buffer.slice(-2)
-        tt.equal(0xFF, lastTwoBytes[0])
-        tt.equal(0xD9, lastTwoBytes[1])
       })
     })
   })
