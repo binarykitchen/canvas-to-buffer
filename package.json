@@ -1,6 +1,6 @@
 {
   "name": "canvas-to-buffer",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Converts a Canvas graphic into a Buffer, as fast as possible and without a copy.",
   "source": "index.js",
   "main": "dist/canvas-to-buffer.js",
@@ -31,17 +31,17 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": "^16.13.1",
-    "npm": "^8.1.2"
+    "node": ">=18.12.1",
+    "npm": ">=8.19.2"
   },
   "dependencies": {
     "atob": "2.1.2",
     "typedarray-to-buffer": "4.0.0"
   },
   "devDependencies": {
-    "canvas": "2.8.0",
-    "microbundle": "0.14.2",
-    "standard": "16.0.4",
-    "tape": "5.4.0"
+    "canvas": "2.11.0",
+    "microbundle": "0.15.1",
+    "standard": "17.0.0",
+    "tape": "5.6.3"
   }
 }
