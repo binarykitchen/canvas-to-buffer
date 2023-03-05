@@ -1,6 +1,6 @@
 {
   "name": "canvas-to-buffer",
-  "version": "2.0.1",
+  "version": "3.0.1",
   "description": "Converts a Canvas graphic into a Buffer, as fast as possible and without a copy.",
   "source": "index.js",
   "main": "dist/canvas-to-buffer.js",
