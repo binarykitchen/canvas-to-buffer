@@ -4,3 +4,4 @@ yarn-error.log
 yarn.lock
 package-lock.json
 .python-version
+*.code-workspace

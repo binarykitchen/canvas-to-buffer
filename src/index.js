@@ -1,211 +1,211 @@
-const toBuffer = require('typedarray-to-buffer')
-const atob = require('atob')
+import toBuffer from "typedarray-to-buffer";
+import atob from "atob";
 const isBrowser =
-  typeof document !== 'undefined' && typeof document.createElement === 'function'
+  typeof document !== "undefined" && typeof document.createElement === "function";
 
 // cached, used only once for browser environments
-let verifiedImageType
+let verifiedImageType;
 
-module.exports = function (canvas, options = {}) {
-  const self = this
+const Frame = function (canvas, options = {}) {
+  const self = this;
 
-  options.image = options.image ? options.image : {}
-  options.image.types = options.image.types ? options.image.types : []
+  options.image = options.image ? options.image : {};
+  options.image.types = options.image.types ? options.image.types : [];
 
   // validate some options this class needs
   if (options.image.types.length > 2) {
-    throw new Error('Too many image types are specified!')
+    throw new Error("Too many image types are specified!");
   } else if (options.image.types.length < 1) {
     // Set a default image type, just to be robust
-    options.image.types = isBrowser ? ['webp', 'jpeg'] : ['png']
+    options.image.types = isBrowser ? ["webp", "jpeg"] : ["png"];
   }
 
   if (!options.image.quality) {
-    options.image.quality = 0.5 // default
+    options.image.quality = 0.5; // default
   }
 
-  const quality = parseFloat(options.image.quality)
+  const quality = parseFloat(options.image.quality);
 
-  function composeImageType (index) {
-    let imageType
+  function composeImageType(index) {
+    let imageType;
 
     if (options.image.types[index]) {
-      imageType = 'image/' + options.image.types[index]
+      imageType = "image/" + options.image.types[index];
     }
 
-    return imageType
+    return imageType;
   }
 
-  function isMatch (uri, imageType) {
-    const match = uri && uri.match(imageType)
+  function isMatch(uri, imageType) {
+    const match = uri && uri.match(imageType);
 
-    match && options.debug && options.debug('Image type %s verified', imageType)
+    match && options.debug && options.debug("Image type %s verified", imageType);
 
-    return match
+    return match;
   }
 
   // Performance tweak, we do not need a big canvas for finding out the supported image type
-  function getTestCanvas () {
-    let testCanvas
+  function getTestCanvas() {
+    let testCanvas;
 
     if (isBrowser) {
-      testCanvas = document.createElement('canvas')
-      testCanvas.width = testCanvas.height = 1
+      testCanvas = document.createElement("canvas");
+      testCanvas.width = testCanvas.height = 1;
     } else {
-      testCanvas = canvas
+      testCanvas = canvas;
     }
 
-    return testCanvas
+    return testCanvas;
   }
 
-  function canvasSupportsImageTypeAsync (imageType, cb) {
+  function canvasSupportsImageTypeAsync(imageType, cb) {
     try {
-      const testCanvas = getTestCanvas()
+      const testCanvas = getTestCanvas();
       testCanvas.toDataURL(imageType, function (err, uri) {
         if (err) {
-          cb(err)
+          cb(err);
         } else {
-          cb(null, isMatch(uri, imageType))
+          cb(null, isMatch(uri, imageType));
         }
-      })
+      });
     } catch (exc) {
-      cb(null, false)
+      cb(null, false);
     }
   }
 
-  function canvasSupportsImageTypeSync (imageType) {
-    let match
+  function canvasSupportsImageTypeSync(imageType) {
+    let match;
 
     try {
-      const testCanvas = getTestCanvas()
-      const uri = testCanvas.toDataURL && testCanvas.toDataURL(imageType)
+      const testCanvas = getTestCanvas();
+      const uri = testCanvas.toDataURL && testCanvas.toDataURL(imageType);
 
-      match = isMatch(uri, imageType)
+      match = isMatch(uri, imageType);
     } catch (exc) {
       // Can happen when i.E. a spider is coming. Just be robust here and continue.
       options.debug &&
         options.logger.debug(
-          'Failed to call toDataURL() on canvas for image type %s',
-          imageType
-        )
+          "Failed to call toDataURL() on canvas for image type %s",
+          imageType,
+        );
     }
 
-    return match
+    return match;
   }
 
-  function verifyImageTypeAsync (imageType, cb) {
+  function verifyImageTypeAsync(imageType, cb) {
     canvasSupportsImageTypeAsync(imageType, function (err, match) {
       if (err) {
-        cb(err)
+        cb(err);
       } else {
         if (match) {
-          cb(null, imageType)
+          cb(null, imageType);
         } else {
-          imageType = composeImageType(1)
+          imageType = composeImageType(1);
 
           canvasSupportsImageTypeAsync(imageType, function (err, match) {
             if (err) {
-              cb(err)
+              cb(err);
             } else {
-              cb(null, match ? imageType : null)
+              cb(null, match ? imageType : null);
             }
-          })
+          });
         }
       }
-    })
+    });
   }
 
-  function verifyImageTypeSync (imageType) {
+  function verifyImageTypeSync(imageType) {
     if (!canvasSupportsImageTypeSync(imageType)) {
       if (options.image.types[1]) {
-        imageType = composeImageType(1)
+        imageType = composeImageType(1);
 
         if (!canvasSupportsImageTypeSync(imageType)) {
-          imageType = null
+          imageType = null;
         }
       } else {
-        imageType = null
+        imageType = null;
       }
     }
 
-    !imageType && options.debug && options.logger.debug('Unable to verify image type')
+    !imageType && options.debug && options.logger.debug("Unable to verify image type");
 
-    return imageType
+    return imageType;
   }
 
   // callbacks are needed for server side tests
-  function verifyImageType (cb) {
-    const imageType = composeImageType(0)
+  function verifyImageType(cb) {
+    const imageType = composeImageType(0);
 
     if (cb) {
-      verifyImageTypeAsync(imageType, cb)
+      verifyImageTypeAsync(imageType, cb);
     } else {
-      return verifyImageTypeSync(imageType)
+      return verifyImageTypeSync(imageType);
     }
   }
 
   // this method is proven to be fast, see
   // http://jsperf.com/data-uri-to-buffer-performance/3
-  function uriToBuffer (uri) {
-    const uriSplitted = uri.split(',')[1]
-    let bytes
+  function uriToBuffer(uri) {
+    const uriSplitted = uri.split(",")[1];
+    let bytes;
 
     // Beware that the atob function might be a static one for server side tests
-    if (typeof atob === 'function') {
-      bytes = atob(uriSplitted)
-    } else if (typeof self.constructor.atob === 'function') {
-      bytes = self.constructor.atob(uriSplitted)
+    if (typeof atob === "function") {
+      bytes = atob(uriSplitted);
+    } else if (typeof self.constructor.atob === "function") {
+      bytes = self.constructor.atob(uriSplitted);
     } else {
-      throw new Error('atob function is missing')
+      throw new Error("atob function is missing");
     }
 
-    const arr = new Uint8Array(bytes.length)
+    const arr = new Uint8Array(bytes.length);
 
     // http://mrale.ph/blog/2014/12/24/array-length-caching.html
     for (let i = 0, l = bytes.length; i < l; i++) {
-      arr[i] = bytes.charCodeAt(i)
+      arr[i] = bytes.charCodeAt(i);
     }
 
-    return toBuffer(arr)
+    return toBuffer(arr);
   }
 
-  function toBufferSync () {
-    const imageType = self.getImageType()
-    let buffer
+  function toBufferSync() {
+    const imageType = self.getImageType();
+    let buffer;
 
     if (imageType) {
-      const uri = canvas.toDataURL(imageType, quality)
-      buffer = uriToBuffer(uri)
+      const uri = canvas.toDataURL(imageType, quality);
+      buffer = uriToBuffer(uri);
     }
 
-    return buffer
+    return buffer;
   }
 
-  function toBufferAsync (cb) {
+  function toBufferAsync(cb) {
     self.getImageType(function (err, imageType) {
       if (err) {
-        cb(err)
+        cb(err);
       } else if (!imageType) {
-        cb()
+        cb();
       } else {
         canvas.toDataURL(imageType, function (err, uri) {
           if (err) {
-            cb(err)
+            cb(err);
           } else {
-            cb(null, uriToBuffer(uri))
+            cb(null, uriToBuffer(uri));
           }
-        })
+        });
       }
-    })
+    });
   }
 
   this.toBuffer = function (cb) {
     if (cb) {
-      toBufferAsync(cb)
+      toBufferAsync(cb);
     } else {
-      return toBufferSync()
+      return toBufferSync();
     }
-  }
+  };
 
   // browsers do not need a callback, but tests do
   this.getImageType = function (cb) {
@@ -215,22 +215,24 @@ module.exports = function (canvas, options = {}) {
       if (!verifiedImageType || !isBrowser) {
         verifyImageType(function (err, newVerifiedImageType) {
           if (err) {
-            cb(err)
+            cb(err);
           } else {
-            verifiedImageType = newVerifiedImageType
-            cb(null, verifiedImageType)
+            verifiedImageType = newVerifiedImageType;
+            cb(null, verifiedImageType);
           }
-        })
+        });
       } else {
-        cb(null, verifiedImageType)
+        cb(null, verifiedImageType);
       }
     } else {
       // on the browser side we do cache it for speed
       if (!verifiedImageType || !isBrowser) {
-        verifiedImageType = verifyImageType()
+        verifiedImageType = verifyImageType();
       }
 
-      return verifiedImageType
+      return verifiedImageType;
     }
-  }
-}
+  };
+};
+
+export default Frame;

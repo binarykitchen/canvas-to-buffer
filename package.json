@@ -2,15 +2,22 @@
   "name": "canvas-to-buffer",
   "version": "3.0.1",
   "description": "Converts a Canvas graphic into a Buffer, as fast as possible and without a copy.",
-  "source": "index.js",
-  "main": "dist/canvas-to-buffer.js",
+  "type": "module",
+  "source": "src/index.js",
+  "exports": {
+    "require": "./dist/canvas-to-buffer.cjs",
+    "default": "./dist/canvas-to-buffer.modern.js"
+  },
+  "main": "dist/canvas-to-buffer.cjs",
   "module": "dist/canvas-to-buffer.mjs",
   "unpkg": "dist/canvas-to-buffer.umd.js",
   "scripts": {
-    "lint": "standard src",
-    "lint:fix": "standard --fix src",
+    "lint": "eslint --color ./src ./test",
+    "lint:fix": "npm --silent run lint -- --fix",
     "build": "microbundle src",
-    "test": "tape test/*.js"
+    "test": "tape test/*.js",
+    "prettier": "prettier --check ./src ./test",
+    "prettier:fix": "prettier --write ./src ./test "
   },
   "author": {
     "name": "Michael Heuberger",
@@ -31,17 +38,21 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=18.12.1",
-    "npm": ">=8.19.2"
+    "node": "^20.12.2",
+    "npm": "^10.5.0"
   },
+  "prettier": "./prettier.config.cjs",
   "dependencies": {
     "atob": "2.1.2",
     "typedarray-to-buffer": "4.0.0"
   },
   "devDependencies": {
-    "canvas": "2.11.0",
+    "canvas": "2.11.2",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-import": "2.29.1",
     "microbundle": "0.15.1",
-    "standard": "17.0.0",
-    "tape": "5.6.3"
+    "prettier": "3.3.3",
+    "tape": "5.8.1"
   }
 }

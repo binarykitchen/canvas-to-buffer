@@ -1,8 +1,0 @@
-{
-  "parser": "babel-eslint",
-  "extends": ["standard"],
-  "rules": {
-    "no-else-return": 1,
-    "space-before-function-paren": 0
-  }
-}
