@@ -1,21 +1,24 @@
 {
   "name": "canvas-to-buffer",
-  "version": "3.1.1",
+  "version": "4.0.0",
   "description": "Converts a Canvas graphic into a Buffer, as fast as possible and without a copy.",
   "type": "module",
-  "source": "src/index.js",
+  "source": "src/index.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
+    "types": "./dist/index.d.ts",
     "require": "./dist/canvas-to-buffer.cjs",
     "default": "./dist/canvas-to-buffer.modern.js"
   },
-  "main": "dist/canvas-to-buffer.cjs",
-  "module": "dist/canvas-to-buffer.mjs",
-  "unpkg": "dist/canvas-to-buffer.umd.js",
+  "module": "./dist/canvas-to-buffer.esm.js",
+  "main": "./dist/canvas-to-buffer.cjs",
+  "unpkg": "./dist/canvas-to-buffer.umd.js",
   "scripts": {
+    "types:check": "tsc --noEmit",
     "lint": "eslint --color ./src ./test",
     "lint:fix": "npm --silent run lint -- --fix",
-    "build": "microbundle src",
-    "test": "tape test/*.js",
+    "build": "microbundle src/index.ts",
+    "test": "cross-env NODE_OPTIONS='--import=tsx' tape test/*.ts",
     "prettier": "prettier --check ./src ./test",
     "prettier:fix": "prettier --write ./src ./test "
   },
@@ -47,12 +50,23 @@
     "typedarray-to-buffer": "4.0.0"
   },
   "devDependencies": {
+    "@tsconfig/node20": "20.1.4",
+    "@tsconfig/strictest": "2.0.5",
+    "@types/atob": "2.1.4",
+    "@types/tape": "5.6.4",
+    "@types/typedarray-to-buffer": "4.0.4",
+    "@typescript-eslint/eslint-plugin": "7.18.0",
+    "@typescript-eslint/parser": "7.18.0",
     "canvas": "2.11.2",
+    "cross-env": "7.0.3",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
+    "eslint-import-resolver-typescript": "3.6.1",
     "eslint-plugin-import": "2.29.1",
     "microbundle": "0.15.1",
     "prettier": "3.3.3",
-    "tape": "5.8.1"
+    "tape": "5.8.1",
+    "tsx": "4.16.5",
+    "typescript": "5.5.4"
   }
 }

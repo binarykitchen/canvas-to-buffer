@@ -36,12 +36,7 @@ const imageType = frame.getImageType();
 
 ```js
 import Frame from "canvas-to-buffer";
-const frame = new Frame(canvas, {
-  quality: 0.4,
-  image: {
-    types: ["webp", "png"],
-  },
-});
+const frame = new Frame(canvas, ["webp", "png"], quality: 0.4);
 ```
 
 The example means, it tries to encode the canvas first as `webp` at the given quality before converting that data into a buffer. If that fails, i.E. the browser does not support it, then it will try again with the `png` format.
