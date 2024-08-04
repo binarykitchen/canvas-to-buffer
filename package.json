@@ -1,12 +1,12 @@
 {
   "name": "canvas-to-buffer",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Converts a Canvas graphic into a Buffer, as fast as possible and without a copy.",
   "type": "module",
   "source": "src/index.ts",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/src/index.d.ts",
   "exports": {
-    "types": "./dist/index.d.ts",
+    "types": "./dist/src/index.d.ts",
     "require": "./dist/canvas-to-buffer.cjs",
     "default": "./dist/canvas-to-buffer.modern.js"
   },
@@ -56,6 +56,7 @@
     "@types/typedarray-to-buffer": "4.0.4",
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
+    "atob": "2.1.2",
     "canvas": "2.11.2",
     "cross-env": "7.0.3",
     "eslint": "8.57.0",

@@ -1,5 +1,5 @@
 {
-  "include": ["src", ".eslintrc.cjs", "prettier.config.cjs"],
+  "include": ["."],
   "extends": ["@tsconfig/strictest/tsconfig.json", "@tsconfig/node20/tsconfig.json"],
   "compilerOptions": {
     "module": "es2022",

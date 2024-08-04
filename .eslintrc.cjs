@@ -1,6 +1,6 @@
 //@ts-check
 
-const PROJECTS = ["./tsconfig.json"];
+const PROJECTS = ["./tsconfig.json", "./test/tsconfig.json"];
 
 module.exports = {
   parser: "@typescript-eslint/parser",
