@@ -20,23 +20,23 @@ Furthermore this module is an important part of the [Videomail Client](https://g
 
 ```js
 // I call it a Frame but you can go with i.E. CanvasConverter, whatever
-var Frame = require("canvas-to-buffer");
+import Frame from "canvas-to-buffer";
 
 // Drop in any canvas, i.E. from a webcam
-var frame = new Frame(canvas);
+const frame = new Frame(canvas);
 
 // Automatically detects image type and does the conversion
-var buffer = frame.toBuffer();
+const buffer = frame.toBuffer();
 
 // Returns the chosen image type, could be `'image/png'`
-var imageType = frame.getImageType();
+const imageType = frame.getImageType();
 ```
 
 ## Options (example)
 
 ```js
-var Frame = require("canvas-to-buffer");
-var frame = new Frame(canvas, {
+import Frame from "canvas-to-buffer";
+const frame = new Frame(canvas, {
   quality: 0.4,
   image: {
     types: ["webp", "png"],
