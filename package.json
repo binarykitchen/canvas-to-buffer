@@ -46,7 +46,6 @@
   },
   "prettier": "./prettier.config.cjs",
   "dependencies": {
-    "atob": "2.1.2",
     "typedarray-to-buffer": "4.0.0"
   },
   "devDependencies": {

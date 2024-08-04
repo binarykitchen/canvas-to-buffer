@@ -1,5 +1,4 @@
 import toBuffer from "typedarray-to-buffer";
-import atob from "atob";
 import { Canvas } from "canvas";
 const isBrowser =
   typeof document !== "undefined" && typeof document.createElement === "function";
@@ -92,15 +91,19 @@ class Frame {
   // http://jsperf.com/data-uri-to-buffer-performance/3
   private uriToBuffer(uri: string) {
     const uriSplitted = uri.split(",")[1];
-    let bytes: string;
+    let bytes: string | undefined;
 
     if (!uriSplitted) {
       throw new Error("Empty uri string given!");
-    } else if (typeof atob === "function") {
-      // Beware that the atob function might be a static one for server side tests
-      bytes = atob(uriSplitted);
+    } else if (isBrowser) {
+      bytes = window.atob(uriSplitted);
     } else {
-      throw new Error("atob function is missing");
+      // Beware that the atob function might be a static one for server side tests
+      bytes = Frame.atob?.(uriSplitted);
+    }
+
+    if (!bytes) {
+      throw new Error("Byte are empty, something within atob went wrong.");
     }
 
     const arr = new Uint8Array(bytes.length);
@@ -115,6 +118,7 @@ class Frame {
 
   public toBuffer() {
     const mimeType = this.getMimeType();
+
     let buffer;
 
     if (mimeType) {
