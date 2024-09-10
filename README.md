@@ -1,7 +1,5 @@
 # canvas-to-buffer
 
-[![Build Status](https://travis-ci.org/binarykitchen/canvas-to-buffer.svg?branch=master)](https://travis-ci.org/binarykitchen/canvas-to-buffer)
-
 A tiny converter to turn any graphic canvas into a buffer. With focus on speed: it doesn't create an expensive copy and makes clever use of `atob()` and `Uint8Array`.
 
 Following performance tests prove that this module is using the fastest known method:

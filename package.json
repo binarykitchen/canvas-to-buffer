@@ -41,8 +41,8 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": "^20.12.2",
-    "npm": "^10.5.0"
+    "node": ">=20.12.2",
+    "npm": ">=10.5.0"
   },
   "prettier": "./prettier.config.cjs",
   "dependencies": {
@@ -61,12 +61,12 @@
     "cross-env": "7.0.3",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
-    "eslint-import-resolver-typescript": "3.6.1",
-    "eslint-plugin-import": "2.29.1",
+    "eslint-import-resolver-typescript": "3.6.3",
+    "eslint-plugin-import": "2.30.0",
     "microbundle": "0.15.1",
     "prettier": "3.3.3",
     "tape": "5.8.1",
-    "tsx": "4.16.5",
-    "typescript": "5.5.4"
+    "tsx": "4.19.0",
+    "typescript": "5.6.2"
   }
 }
