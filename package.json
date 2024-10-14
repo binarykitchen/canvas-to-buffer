@@ -1,6 +1,6 @@
 {
   "name": "canvas-to-buffer",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Converts a Canvas graphic into a Buffer, as fast as possible and without a copy.",
   "type": "module",
   "source": "src/index.ts",
@@ -41,15 +41,15 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=20.12.2",
-    "npm": ">=10.5.0"
+    "node": ">=22.8.0",
+    "npm": ">=10.8.3"
   },
   "prettier": "./prettier.config.cjs",
   "dependencies": {
     "typedarray-to-buffer": "4.0.0"
   },
   "devDependencies": {
-    "@tsconfig/node20": "20.1.4",
+    "@tsconfig/node22": "22.0.0",
     "@tsconfig/strictest": "2.0.5",
     "@types/atob": "2.1.4",
     "@types/tape": "5.6.4",
@@ -62,11 +62,11 @@
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-import-resolver-typescript": "3.6.3",
-    "eslint-plugin-import": "2.30.0",
+    "eslint-plugin-import": "2.31.0",
     "microbundle": "0.15.1",
     "prettier": "3.3.3",
-    "tape": "5.8.1",
-    "tsx": "4.19.0",
-    "typescript": "5.6.2"
+    "tape": "5.9.0",
+    "tsx": "4.19.1",
+    "typescript": "5.6.3"
   }
 }

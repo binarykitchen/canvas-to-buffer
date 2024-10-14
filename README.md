@@ -32,7 +32,7 @@ const imageType = frame.getImageType();
 
 ## Options (example)
 
-```js
+```ts
 import Frame from "canvas-to-buffer";
 const frame = new Frame(canvas, ["webp", "png"], quality: 0.4);
 ```
